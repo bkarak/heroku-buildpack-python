@@ -14,5 +14,6 @@ cd LuaJIT-2.0.2
 make
 make install
 make clean
+cd ..
 rm -rf LuaJIT-2.0.2
 rm $LUATMP_FILE
