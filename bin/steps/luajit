@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LUAJIT_URL="http://bkarak.wizhut.com/luajit-2.0.2.tar.gz"
+LUAJIT_URL="http://luajit.org/download/LuaJIT-2.0.2.tar.gz"
 LUATMP_FILE="tmp-luajit.tar.gz"
 
 # Syntax sugar.
@@ -8,12 +8,10 @@ source $BIN_DIR/utils
 
 echo "-----> Installing LuaJIT ..."
 cd .heroku
-mkdir vendor
 curl -s -L -o $LUATMP_FILE $LUAJIT_URL
 tar -zxvf $LUATMP_FILE > /dev/null
 cd LuaJIT-2.0.2
-make
-make install
+make install PREFIX=/app/.heroku/vendor
 make clean
 cd ..
 rm -rf LuaJIT-2.0.2
