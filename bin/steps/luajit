@@ -16,8 +16,7 @@ cd LuaJIT-2.0.2
 make install PREFIX=/app/.heroku/vendor
 make clean
 cd ..
-ls -Tla vendor/
-cat vendor/lib/pkgconfig/luaji.pc
+ls -Rla vendor/
 rm -rf LuaJIT-2.0.2
 rm $LUATMP_FILE
 cd ..
