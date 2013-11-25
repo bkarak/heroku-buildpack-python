@@ -86,7 +86,7 @@ export C_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/incl
 export CPLUS_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/include
 export LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib
 export LD_LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib
-export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.heroku/vendor/lib/pkg-config
+export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.heroku/vendor/lib/pkg-config:/app/.heroku/vendor/lib/pkgconfig
 
 # Switch to the repo's context.
 cd $BUILD_DIR
@@ -205,17 +205,6 @@ bpwatch stop pylibmc_install
 bpwatch start luajit_install
   source $BIN_DIR/steps/luajit
 bpwatch stop luajit_install
-
-# Set context environment variables.
-#set-env PATH '$HOME/.heroku/python/bin:$PATH'
-#set-env PYTHONUNBUFFERED true
-#set-env PYTHONHOME /app/.heroku/python
-#set-default-env LIBRARY_PATH /app/.heroku/vendor/lib
-#set-default-env LD_LIBRARY_PATH /app/.heroku/vendor/lib
-#set-default-env PKG_CONFIG_PATH=vendor/lib/pkgconfig
-#set-default-env LANG en_US.UTF-8
-#set-default-env PYTHONHASHSEED random
-#set-default-env PYTHONPATH /app/
 
 # Install Mercurial if it appears to be required.
 if (grep -Fiq "hg+" requirements.txt) then
