@@ -17,4 +17,3 @@ cd ..
 rm -rf LuaJIT-2.0.2
 rm $LUATMP_FILE
 cd ..
-cat /app/.heroku/vendor/lib/pkgconfig/luajit.pc
