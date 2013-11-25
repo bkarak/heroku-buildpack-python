@@ -17,6 +17,7 @@ make install PREFIX=/app/.heroku/vendor
 make clean
 cd ..
 ls -la vendor
+ls -la vendor/include
 ls -la vendor/lib
 rm -rf LuaJIT-2.0.2
 rm $LUATMP_FILE
