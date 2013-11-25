@@ -202,9 +202,9 @@ bpwatch start pylibmc_install
 bpwatch stop pylibmc_install
 
 # luajit install
-#bpwatch start luajit_install
-#  source $BIN_DIR/steps/luajit
-#bpwatch stop luajit_install
+bpwatch start luajit_install
+  source $BIN_DIR/steps/luajit
+bpwatch stop luajit_install
 
 # Set context environment variables.
 #set-env PATH '$HOME/.heroku/python/bin:$PATH'

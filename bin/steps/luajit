@@ -8,12 +8,10 @@ source $BIN_DIR/utils
 
 echo "-----> Installing LuaJIT ..."
 cd .heroku
-mkdir vendor
-mkdir vendor/lib
 curl -s -L -o $LUATMP_FILE $LUAJIT_URL
 tar -zxvf $LUATMP_FILE > /dev/null
 cd LuaJIT-2.0.2
-make install PREFIX=/app/.heroku/vendor
+make install
 make clean
 cd ..
 rm -rf LuaJIT-2.0.2
