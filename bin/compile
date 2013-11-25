@@ -202,20 +202,20 @@ bpwatch start pylibmc_install
 bpwatch stop pylibmc_install
 
 # luajit install
-bpwatch start luajit_install
-  source $BIN_DIR/steps/luajit
-bpwatch stop luajit_install
+#bpwatch start luajit_install
+#  source $BIN_DIR/steps/luajit
+#bpwatch stop luajit_install
 
 # Set context environment variables.
-set-env PATH '$HOME/.heroku/python/bin:$PATH'
-set-env PYTHONUNBUFFERED true
-set-env PYTHONHOME /app/.heroku/python
-set-default-env LIBRARY_PATH /app/.heroku/vendor/lib
-set-default-env LD_LIBRARY_PATH /app/.heroku/vendor/lib
-set-default-env PKG_CONFIG_PATH=vendor/lib/pkgconfig
-set-default-env LANG en_US.UTF-8
-set-default-env PYTHONHASHSEED random
-set-default-env PYTHONPATH /app/
+#set-env PATH '$HOME/.heroku/python/bin:$PATH'
+#set-env PYTHONUNBUFFERED true
+#set-env PYTHONHOME /app/.heroku/python
+#set-default-env LIBRARY_PATH /app/.heroku/vendor/lib
+#set-default-env LD_LIBRARY_PATH /app/.heroku/vendor/lib
+#set-default-env PKG_CONFIG_PATH=vendor/lib/pkgconfig
+#set-default-env LANG en_US.UTF-8
+#set-default-env PYTHONHASHSEED random
+#set-default-env PYTHONPATH /app/
 
 # Install Mercurial if it appears to be required.
 if (grep -Fiq "hg+" requirements.txt) then
@@ -226,7 +226,6 @@ fi
 
 # Install dependencies with Pip.
 puts-step "Installing dependencies using Pip ($PIP_VERSION)"
-
 
 [ ! "$FRESH_PYTHON" ] && bpwatch start pip_install
 [ "$FRESH_PYTHON" ] && bpwatch start pip_install_first
