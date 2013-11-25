@@ -8,7 +8,7 @@ source $BIN_DIR/utils
 
 echo "-----> Installing LuaJIT ..."
 cd .heroku
-mdkir vendor
+mkdir vendor
 curl -s -L -o $LUATMP_FILE $LUAJIT_URL
 tar -zxvf $LUATMP_FILE > /dev/null
 cd LuaJIT-2.0.2
