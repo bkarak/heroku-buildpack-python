@@ -1,9 +1,9 @@
-Heroku buildpack: Python
-========================
+Heroku buildpack: Python (with LUA support)
+===========================================
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps, powered by [pip](http://www.pip-installer.org/).
 
-[![Build Status](https://secure.travis-ci.org/heroku/heroku-buildpack-python.png?branch=master)](http://travis-ci.org/heroku/heroku-buildpack-python)
+This is a modified version of the buildback that includes and compiles the LuaJIT virtual machine. (Remember to add the lupa binding along with your installation).
 
 Usage
 -----
