@@ -1,9 +1,12 @@
-Heroku buildpack: Python (with LUA support)
-===========================================
+Heroku buildpack: Python
+========================
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps, powered by [pip](http://www.pip-installer.org/).
 
-This is a modified version of the buildback that includes and compiles the LuaJIT virtual machine. (Remember to add the lupa binding along with your installation).
+This is a modified version of the buildback that includes:
+
+- LuaJIT: required by Lupa module ([https://pypi.python.org/pypi/lupa](https://pypi.python.org/pypi/lupa))
+- libffi: required by pyopenssl ([https://pypi.python.org/pypi/pyOpenSSL](https://pypi.python.org/pypi/pyOpenSSL))
 
 Usage
 -----
