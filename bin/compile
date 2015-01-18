@@ -206,6 +206,11 @@ bpwatch start luajit_install
   source $BIN_DIR/steps/luajit
 bpwatch stop luajit_install
 
+# libffi install
+bpwatch start libffi_install
+  source $BIN_DIR/steps/libffi
+bpwatch stop libffi_install
+
 # Install Mercurial if it appears to be required.
 if (grep -Fiq "hg+" requirements.txt) then
   bpwatch start mercurial_install
