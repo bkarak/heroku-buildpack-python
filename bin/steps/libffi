@@ -3,7 +3,7 @@
 # This script is invoked by [`bin/compile`](/).
 
 # The location of the pre-compiled libffi binary.
-VENDORED_LIBFFI="https://s3.amazonaws.com/rt-uploads/libffi-3.0.tgz"
+VENDORED_LIBFFI="http://pkgs.fedoraproject.org/repo/pkgs/libffi/libffi-3.1.tar.gz/f5898b29bbfd70502831a212d9249d10/libffi-3.1.tar.gz"
 VENDORED_PATH=/app/vendor/libffi-3.0
 
 # Syntax sugar.
