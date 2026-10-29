@@ -2,33 +2,34 @@
 #
 # This script is invoked by [`bin/compile`](/).
 
-# The location of the pre-compiled libffi binary.
-VENDORED_LIBFFI="http://pkgs.fedoraproject.org/repo/pkgs/libffi/libffi-3.1.tar.gz/f5898b29bbfd70502831a212d9249d10/libffi-3.1.tar.gz"
-VENDORED_PATH=/app/vendor/libffi-3.0
+# libffi, required by cffi (and so by cryptography and pyOpenSSL). Built from
+# source; Fedora's source archive keeps the tarball under its MD5.
+LIBFFI_VERSION="3.1"
+LIBFFI_URL="https://src.fedoraproject.org/repo/pkgs/libffi/libffi-$LIBFFI_VERSION.tar.gz/f5898b29bbfd70502831a212d9249d10/libffi-$LIBFFI_VERSION.tar.gz"
+LIBFFI_SHA256="97feeeadca5e21870fa4433bc953d1b3af3f698d5df8a428f68b73cd60aef6eb"
+LIBFFI_PREFIX=/app/.heroku/vendor
 
 # Syntax sugar.
 source $BIN_DIR/utils
 
-echo "-----> Noticed cffi. Bootstrapping libffi."
-PREV_DIR=$(pwd)
-mkdir -p "$VENDORED_PATH"
-cd "$VENDORED_PATH"
-
-# Download and extract libffi into target vendor directory.
-curl -s -L -o tmp-libffi.tar.gz $VENDORED_LIBFFI
-tar -zxvf tmp-libffi.tar.gz > /dev/null
-rm tmp-libffi.tar.gz
-
-# Add libffi's to PKG_CONFIG_PATH
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$(pwd)/lib/pkgconfig/
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib/
-#export LIBRARY_PATH=$LIBRARY_PATH:$(pwd)/lib/
-echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}"
-if [ -e $(pwd)/lib/pkgconfig/libffi.pc ]
-then
-  echo "libffi.pc is in-place at $(pwd)/vendor/lib/pkgconfig/libffi.pc, libffi-based builds should work!"
+# If cffi, cryptography or pyOpenSSL exists within requirements, build libffi
+# into .heroku/vendor, which is cached between builds and on the library paths
+# at build and run time.
+if (grep -Eiq "^\s*(cffi|cryptography|pyopenssl)" requirements.txt) then
+  if [ -f "$LIBFFI_PREFIX/lib/pkgconfig/libffi.pc" ]; then
+    puts-step "Noticed cffi. Using cached libffi ($LIBFFI_VERSION)."
+  else
+    puts-step "Noticed cffi. Building libffi ($LIBFFI_VERSION)."
+    LIBFFI_TMP=$(mktemp -d)
+    curl -s -f -L -o "$LIBFFI_TMP/libffi.tar.gz" "$LIBFFI_URL"
+    echo "$LIBFFI_SHA256  $LIBFFI_TMP/libffi.tar.gz" | sha256sum -c - > /dev/null
+    tar -zxf "$LIBFFI_TMP/libffi.tar.gz" -C "$LIBFFI_TMP"
+    (
+      cd "$LIBFFI_TMP/libffi-$LIBFFI_VERSION"
+      ./configure --prefix="$LIBFFI_PREFIX" --libdir="$LIBFFI_PREFIX/lib" --disable-static
+      make
+      make install
+    ) 2>&1 | indent
+    rm -rf "$LIBFFI_TMP"
+  fi
 fi
-
-cd "$PREV_DIR"
-
-

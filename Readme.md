@@ -1,12 +1,20 @@
 Heroku buildpack: Python
 ========================
 
+> **Note (October 2026):** this fork is kept for the record. It added two build steps to the 2013 Python buildpack; LuaJIT, for lupa (Lua scripting inside a Python service), and libffi, for pyOpenSSL (validating Apple in-app purchase receipts).
+>
+> Both steps were fixed in 2026. They now download from Fedora's source archive, which keeps tarballs under their checksum, verify each download's SHA-256, build into `.heroku/vendor` (cached, and on the library paths at run time) and run only when `requirements.txt` asks for lupa, or for cffi, cryptography or pyOpenSSL. The libffi step used to unpack the source and build nothing. The `PKG_CONFIG_PATH` typo is fixed, and an unused copy of the lupa source is gone. The rest of the buildpack is still the 2013 one, and it does not build on any current Heroku stack (Ubuntu 24.04 has no `python2`, which its build tooling needs, and its Python runtimes are no longer downloadable).
+>
+> Neither step is needed today. `lupa`, `cffi` and `cryptography` install as manylinux wheels that already carry LuaJIT, libffi and OpenSSL, so the stock [heroku/python](https://github.com/heroku/heroku-buildpack-python) buildpack handles a `requirements.txt` with `lupa` and `pyOpenSSL` as it is.
+>
+> The story of this fork: [Blast from the past: the Heroku buildpacks I forked](https://bkarak.wizhut.tech/blog/2026/29102026).
+
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps, powered by [pip](http://www.pip-installer.org/).
 
-This is a modified version of the buildback that includes:
+This is a modified version of the buildpack that includes:
 
-- LuaJIT: required by Lupa module ([https://pypi.python.org/pypi/lupa](https://pypi.python.org/pypi/lupa))
-- libffi: required by pyopenssl ([https://pypi.python.org/pypi/pyOpenSSL](https://pypi.python.org/pypi/pyOpenSSL))
+- LuaJIT: required by the [lupa](https://pypi.org/project/lupa/) module
+- libffi: required by [pyOpenSSL](https://pypi.org/project/pyOpenSSL/), through cryptography and cffi
 
 Usage
 -----
